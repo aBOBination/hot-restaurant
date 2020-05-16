@@ -37,10 +37,12 @@ var waitlist = [];
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
+
 // Basic route that sends the user to the revervation form
 app.get('/reserve', function (req, res) {
   res.sendFile(path.join(__dirname, 'form.html'));
 });
+
 // Basic route that sends the user to the current reservations
 app.get('/reservation-view', function (req, res) {
   res.sendFile(path.join(__dirname, 'view.html'));
