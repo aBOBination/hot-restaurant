@@ -33,25 +33,25 @@ var waitlist = [];
 // Routes
 // =============================================================
 
-// Basic route that sends the user first to the AJAX Page
+// Basic route that sends the user to the Home Page
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
-
+// Basic route that sends the user to the revervation form
 app.get('/reserve', function (req, res) {
   res.sendFile(path.join(__dirname, 'form.html'));
 });
-
+// Basic route that sends the user to the current reservations
 app.get('/reservation-view', function (req, res) {
   res.sendFile(path.join(__dirname, 'view.html'));
 });
 
-// Displays all characters
+// Displays all reservations data in JSON
 app.get('/api/tables', function (req, res) {
   return res.json(reservations);
 });
 
-// Displays all heros
+// Displays all wailist data in JSON
 app.get('/api/waitlist', function (req, res) {
   return res.json(waitlist);
 });
@@ -59,16 +59,19 @@ app.get('/api/waitlist', function (req, res) {
 // Create New Reservation- takes in JSON input
 app.post('/reserve', function (req, res) {
   var newReservation = req.body;
+  if (reservations.length < 5) {
+    reservations.push(newReservation);
 
-  // newReservation.routeName = newReservation.name
-  // .replace(/\s+/g, '')
-  // .toLowerCase();
+    res.json(newReservation);
+    console.log('added to reservations');
+  } else {
+    waitlist.push(newReservation);
+
+    res.json(newReservation);
+    console.log('added to waitlist');
+  }
 
   console.log(newReservation);
-
-  reservations.push(newReservation);
-
-  res.json(newReservation);
 });
 
 // Starts the server to begin listening
