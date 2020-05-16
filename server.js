@@ -38,7 +38,7 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'home.html'));
 });
 
-app.get('/reservation-form', function (req, res) {
+app.get('/reserve', function (req, res) {
   res.sendFile(path.join(__dirname, 'form.html'));
 });
 
@@ -48,81 +48,27 @@ app.get('/reservation-view', function (req, res) {
 
 // Displays all characters
 app.get('/api/tables', function (req, res) {
-  return res.json(heros.concat(tables));
+  return res.json(reservations);
 });
 
 // Displays all heros
 app.get('/api/waitlist', function (req, res) {
-  return res.json(tables);
+  return res.json(waitlist);
 });
 
-// // Displays all villians
-// app.get('/api/characters/villians', function (req, res) {
-//   return res.json(villians);
-// });
-
-// // Displays a single character, or returns false
-// app.get('/api/characters/heros/:character', function (req, res) {
-//   var chosen = req.params.character;
-
-//   console.log(chosen);
-
-//   for (var i = 0; i < heros.length; i++) {
-//     if (chosen === heros[i].routeName) {
-//       return res.json(heros[i]);
-//     }
-//   }
-
-//   return res.json(false);
-// });
-
-app.get('/api/characters/villians/:character', function (req, res) {
-  var chosen = req.params.character;
-
-  console.log(chosen);
-
-  for (var i = 0; i < villians.length; i++) {
-    if (chosen === villians[i].routeName) {
-      return res.json(villians[i]);
-    }
-  }
-
-  return res.json(false);
-});
-
-// Create New Tables- takes in JSON input
-app.post('/api/tables', function (req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
+// Create New Reservation- takes in JSON input
+app.post('/reserve', function (req, res) {
   var newReservation = req.body;
 
-  // Using a RegEx Pattern to remove spaces from newCharacter
-  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  newReservation.routeName = newReservation.name
-    .replace(/\s+/g, '')
-    .toLowerCase();
+  // newReservation.routeName = newReservation.name
+  // .replace(/\s+/g, '')
+  // .toLowerCase();
 
   console.log(newReservation);
 
-  heros.push(newReservation);
+  reservations.push(newReservation);
 
   res.json(newReservation);
-});
-
-app.post('/api/characters/villians', function (req, res) {
-  // req.body hosts is equal to the JSON post sent from the user
-  // This works because of our body parsing middleware
-  var newCharacter = req.body;
-
-  // Using a RegEx Pattern to remove spaces from newCharacter
-  // You can read more about RegEx Patterns later https://www.regexbuddy.com/regex.html
-  newCharacter.routeName = newCharacter.name.replace(/\s+/g, '').toLowerCase();
-
-  console.log(newCharacter);
-
-  villians.push(newCharacter);
-
-  res.json(newCharacter);
 });
 
 // Starts the server to begin listening
